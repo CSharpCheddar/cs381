@@ -1,0 +1,31 @@
+// DFA recognizing { x in {0,1}* | x is divisible by either 3 or 5 }
+
+states = {q0,      // the remmainder is 0
+          q1,      // the remmainder is 1
+          q2,      // the remmainder is 2
+          q3,      // the remmainder is 3
+          q4}      // the remmainder is 4
+
+input_alphabet = {0,1}
+
+// 0 is also divisible by 5
+start_state = q0
+
+// accept if remainder is 0
+accept_states =  {q0}
+
+delta =
+    q0,0   -> q0;
+    q0,1   -> q1;
+
+    q1,0   -> q2;
+    q1,1   -> q3;
+    
+    q2,0   -> q4;
+    q2,1   -> q0;
+    
+    q3,0   -> q1;
+    q3,1   -> q2;
+    
+    q4,0   -> q3;
+    q4,1   -> q4;

@@ -1,0 +1,62 @@
+\documentclass[12pt, letter]{article}
+
+\usepackage[margin=0.8in]{geometry}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\title{CS 381 - A1}
+\author{Martin Mueller}
+\date{Due: Friday, February $14^{th}$, 2020}
+
+\begin{document}
+	\maketitle
+	\begin{enumerate}
+		\item (5 points) Assuming $c \in \mathbb{R}^{+} - \{0\}$ and $N_{0}, N \in \{i \in \mathbb{Z} | i > 0\}$, use a \textbf{direct proof} to disprove the following statement: \\ \\
+		\noindent\fbox{
+			\begin{minipage}{\linewidth}
+				$$(\exists c, N_{0})(\forall N)[N \ge N_{0} \to N \ge c \cdot N^{2}]$$
+			\end{minipage}
+		}
+		\begin{center}
+			The best way to approach this is by negating the statement and trying to prove that true:
+			\begin{align*}
+				\neg(\exists c, N_{0})(\forall N)[N \ge N_{0} \to N \ge c \cdot N^{2}] &= \neg(\exists c, N_{0})(\forall N)[\neg[N \ge N_{0}] \vee [N \ge c \cdot N^{2}]] \\
+				&= (\forall c, N_{0})(\exists N)[N \ge N_{0} \wedge N < c \cdot N^{2}]
+			\end{align*}
+			In order to prove this, we must select (a) value(s) of $N$ such that for any arbitrary $c$ and $N_{0}$, both $N \ge N_{0}$ \textit{and} $N < c \cdot N^{2}$. Let's start with the inequality $N < c \cdot N^{2}$:
+			\begin{align*}
+				N < c \cdot N^{2} &= \frac{N}{N} < c \cdot \frac{N^{2}}{N} \\
+				&= 1 < c \cdot N \\
+				&= \frac{1}{c} < N
+			\end{align*}
+			Let's now consider the case that $c > 1$. If this is the case, the constant on the left hand side will be smaller than 1. Since $N$ cannot be smaller than 1, the case $c > 1$ works for any $N$ greater than or equal to $N_{0}$. However, even if $c$ is arbitrarily small such that the constant $\frac{1}{c}$ is arbitrarily large, we can always pick an $N$ greater than that, as $N$ is not bounded from above. Therefore, there will always be an $N$ that satisfies those two conditions, making the negation of the statement true. This makes the original statement false.
+		\end{center}
+		\item (5 points) Recall that a number $q > 1$ is composite if there exists a positive integer $d$, such that, $d > 1$, $d < q$ and $d$ divides $q$. Use a proof by contradiction to prove the following statement, assuming $q$ is a positive integer greater than 1: \\ \\
+		\noindent\fbox{
+			\begin{minipage}{\linewidth}
+				If, for all integers $d$, the sufficient conditions $d > 1$ and $d < q$ imply that either $1 = 0$ or $d$ does not divide $q$, then $q$ is not composite.
+			\end{minipage}
+		}
+		\begin{center}
+			First, we'll rewrite the definition of composite. To do this, we'll define two functions: $C(x)$ and $D(x, y)$ to mean that $x$ is composite and $x$ divides $y$ respectively. Incorporating this with the first statement, we get:
+			$$(q > 1\wedge (\exists d \in \mathbb{Z}^{+})[d > 1 \wedge d < q \wedge D(d, q)]) \to C(q)$$
+			Next, we'll also use these functions to restate the proposition we are trying to prove:
+			\begin{align*}
+				&(\forall q \in \mathbb{N} - \{1\}, d \in \mathbb{Z})[[d > 1 \wedge d < q \to 1 = 0 \vee \neg D(d, q)] \to \neg C(q)] \\
+				&= (\forall q \in \mathbb{N} - \{1\}, d \in \mathbb{Z})[[d > 1 \wedge d < q \to \neg D(d, q)] \to \neg C(q)]
+			\end{align*}
+			Now we'll rewrite the implications:
+			$$(\forall q \in \mathbb{N} - \{1\}, d \in \mathbb{Z})[\neg [\neg (d > 1 \wedge d < q) \vee \neg D(d, q)] \vee \neg C(q)]$$
+			Next we simplify:
+			$$(\forall q \in \mathbb{N} - \{1\}, d \in \mathbb{Z})[d > 1 \wedge d < q \wedge D(d, q) \vee \neg C(q)]$$
+			Notice that $d > 1 \wedge d < q \wedge D(d, q)$ for any $q > 1$ is the definition of composite. this means we can further simplify this to:
+			$$(\forall q \in \mathbb{N} - \{1\}, d \in \mathbb{Z})[C(q) \vee \neg C(q)]$$
+			For the sake of obtaining a contradiction, let's take this statement and negate it:
+			\begin{align*}
+				&\neg (\forall q \in \mathbb{N} - \{1\}, d \in \mathbb{Z})[C(q) \vee \neg C(q)] \\
+				&= (\exists q \in \mathbb{N} - \{1\}, d \in \mathbb{Z})[\neg C(q) \wedge C(q)]
+			\end{align*}
+			Here we can see that this is in the form of $\neg r \wedge r$: a contradiction. Since the negation of the statement reveals a contradiction, the statement must be a tautology and therefore is true.
+		\end{center}
+	\end{enumerate}
+\end{document}
