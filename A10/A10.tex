@@ -1,0 +1,40 @@
+\documentclass[11pt letter]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.7in]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{nopageno}
+\usepackage{amsmath}
+
+\title{CS 381 - A10}
+\author{Martin Mueller}
+\date{Due: May $13^{th}$, 2020}
+
+\begin{document}
+\maketitle
+\section{Problem}
+Assume $M=\left(Q,\Sigma,\Gamma,\delta,q_0,q_{accept},q_{reject}\right)$ is a standard Turing machine. We say that $M$ has a double state $q \in Q$, if it transitions to $q$ exactly twice on every input $w \in \Sigma^{*}$.
+
+Prove that the set of all (encodings of) TMs $\langle M \rangle$, such that $M$ has a double state, is undecidable using one of the techniques that we've talked about.
+
+For the purpose of just this problem, the only other problem that you may assume is undecidable is $A_{TM}$. 
+
+Justify, at least briefly, all aspects of your proof.
+\section{Proof}
+Assume for the sake of obtaining a contradiction that $L(M) = \{ \langle M \rangle \ | \ M \text{ is a TM and has a double state}\}$ is decidable. Let $D$ be a TM that decides $L(M)$. We can now construct a TM $S$ to decide $A_{TM}$:
+
+$S$ = "On input $\langle M, w \rangle$, where $M$ is a TM and $w$ is a string:
+\begin{enumerate}
+    \item Use $M$ and $w$ to construct the following TM $M_{2}$:
+    
+    $M_{2}$ = "On any input
+    \begin{enumerate}
+        \item Simulate $M$ on $w$. Record how many times each state is entered.
+        \item If $M$ entered any state $q$ exactly twice, then \textit{accept}; else \textit{reject}"
+    \end{enumerate}
+    \item Run $D$ on input $\langle M_{2} \rangle$.
+    \item If $D$ accepts, \textit{accept}; if $D$ rejects, \textit{reject}"
+\end{enumerate}
+If $D$ decides $L(M)$, then $S$ decides $A_{TM}$. Because $A_{TM}$ is undecidable, $L(M)$ must also be undecidable.
+\end{document}

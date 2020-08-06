@@ -1,0 +1,44 @@
+\documentclass[11pt letter]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.7in]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{nopageno}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\title{CS 381 - A9}
+\author{Martin Mueller}
+\date{Due: May $11^{th}$, 2020}
+
+\begin{document}
+\maketitle
+
+Let $A$ be be the set of all encodings $\langle M \rangle$, $M$ is a DFA, such that, for all $k \in \mathbb{N}$, there exists $m \in \mathbb{N}$, such that, $m \ge k$ and $M$ accepts a string of length $m$. Prove that $A$ is decidable. You may assume that your decider implicitly verifies the format of the input, but all other details must be specified and justified.
+
+First, we will need a decider that can determine if a DFA recognizes the empty language. To do this, we define the language for which we want a decider $E_{\text{DFA}}$ such that $E_{\text{DFA}} = \{\langle A \rangle \ | \ A \text{ is a DFA and } L(A) = \emptyset\}$. Next, we know that a DFA accepts some string if and only if reaching an accept state from the start state by traveling along the DFA's transitions is possible. To test this, we can design a TM $T_{1}$ that marks the states which it has visited in order to determine if the DFA accepts a given string.
+
+$T_{1}$ = "On input $\langle A \rangle$ where $A$ is a DFA:
+\begin{enumerate}
+    \item Mark the start state of $A$.
+    \item Repeat until no new states get marked:
+    \begin{enumerate}
+        \item  Mark any state that has a transition going into it from any state that has already been marked.
+    \end{enumerate}
+    \item If none of the accept states are marked, \textit{accept}; otherwise, \textit{reject}."
+\end{enumerate}
+
+From the problem statement, we can now more compactly define the language of the TM we must construct to be $L$ such that $L = \{\langle M \rangle \ | \ M \text{ is a DFA and } L(M) \text{ is a countably infinite language}\}$. We now can construct a TM $T_{2}$ that decides $L$:
+
+$T_{2}$ = "On input $\langle M \rangle$, where $M$ is a DFA:
+\begin{enumerate}
+    \item Let $x$ be the number of states of $M$.
+    \item Construct a DFA $A$ that accepts all strings of length $x$ or more.
+    \item Construct a DFA $B$ such that $L(B) = L(M) \cap L(A)$.
+    \item Determine if $L(B) = \emptyset$ using the decider $T_{1}$.
+    \item If $T_{1}$ accepts, \textit{reject}; if $T_{1}$ rejects, \textit{accept}."
+\end{enumerate}
+
+A DFA that accepts infinitely many strings must accept strings of an arbitrary length. $T_{2}$ accepts these kinds of DFAs. In addition, if $T_{2}$ accepts a DFA, the DFA accepts some string of length $x$ or more, where $x$ is the number of states in the DFA. We can also use the necessary conditions that the pumping lemma for regular languages provides to generate infinitely many strings that are accepted by $M$.
+\end{document}
